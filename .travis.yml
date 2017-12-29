@@ -28,7 +28,7 @@ install:
 
 script:
   - ./vendor/bin/simple-phpunit --coverage-clover=coverage.xml
-  - ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
+  - ./vendor/bin/php-cs-fixer fix --diff --dry-run -v
   - ./bin/console lint:yaml config
   - ./bin/console lint:twig templates
   #- ./bin/console lint:xliff translations
