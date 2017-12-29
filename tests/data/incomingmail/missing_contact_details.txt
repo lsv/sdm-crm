@@ -1,0 +1,22 @@
+---- PHONE NUMBERS ---
+[pn]: 98765432|Donald
+[pn]: 87654321|Duck
+
+--
+Add phone numbers by adding them above here
+
+-- Contact details (required) --
+[cd] name:
+
+
+-- Contact details (optional) --
+[cd] companyName:DonaldCompany
+[cd] webpage:www.donald.com
+
+
+----
+Create a new contact by filling out the above form
+
+--
+Best regards
+SD-CRM

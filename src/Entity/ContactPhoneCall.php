@@ -45,6 +45,12 @@ class ContactPhoneCall
      */
     private $duration;
 
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+
     /**
      * Get Id.
      *

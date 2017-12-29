@@ -33,5 +33,6 @@ services:
     App\Command\AppReadMailsCommand:
         $imap: '@secit.imap'
 
-    App\Consumer\CallEventConsumer:
+    App\Consumer\:
+        resource: '../src/Consumer/*'
         public: true

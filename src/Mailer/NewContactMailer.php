@@ -5,6 +5,7 @@ namespace App\Mailer;
 use App\Entity\Contact;
 use App\Entity\ContactInfo;
 use App\Entity\ContactInfoField;
+use App\Entity\ContactPhoneNumber;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use PhpImap\IncomingMail;
 
@@ -44,11 +45,11 @@ class NewContactMailer
      * @param Contact     $contact
      * @param string|null $recieverAddress
      * @param string|null $recieverName
-     * @param bool        $missingData
+     * @param array|null  $missingData
      *
      * @return int
      */
-    public function createMessage(Contact $contact, ?string $recieverAddress = null, ?string $recieverName = null, $missingData = false): int
+    public function sendMessage(Contact $contact, ?string $recieverAddress = null, ?string $recieverName = null, array $missingData = null): int
     {
         try {
             $template = $this->twig->resolveTemplate('Mailer/new_contact_mail.mail.twig');
@@ -88,9 +89,11 @@ class NewContactMailer
      */
     public function readMessage(IncomingMail $mail): bool
     {
+        $endPattern = '(\[x]|\[pn]|\[cd]|--)';
+
         if (0 === mb_strpos($mail->subject, self::SUBJECT)) {
             if ($em = $this->registry->getManagerForClass(Contact::class)) {
-                $missingRequired = false;
+                $missingRequired = [];
                 $contact = new Contact();
                 $text = $mail->textPlain;
 
@@ -99,28 +102,55 @@ class NewContactMailer
                 $fields = array_merge($this->fields->getRequiredInfoFields(), $this->fields->getOptionalInfoFields());
                 foreach ($fields as $field) {
                     $pattern = preg_quote('[x] '.$field->getName().':', '/');
-                    preg_match_all('/'.$pattern.'(.*?)(\[x]|--)/msi', $text, $matches);
+                    preg_match_all('/'.$pattern.'(.*?)'.$endPattern.'/msi', $text, $matches);
                     if (isset($matches[1][0]) && trim($matches[1][0])) {
                         $contact->addInfo((new ContactInfo())
                             ->setValueByType($field, preg_replace('#\R{2,}#', "\n", trim($matches[1][0])))
                         );
                     } elseif ($field->isRequired()) {
-                        $missingRequired = true;
+                        $missingRequired[] = $field->getName();
                     }
                 }
 
-                // @todo [pn] fields
+                $phones = [];
+                preg_match_all("/\[pn]:(.*?)(|(.*?)?)\n/msi", $text, $matches, PREG_OFFSET_CAPTURE);
+                if (isset($matches[2]) && \is_array($matches[2])) {
+                    foreach ($matches[2] as $match) {
+                        $variables = array_map('trim', explode('|', $match[0]));
+                        if (!empty($variables[0]) && 'phonenumber' !== $variables[0]) {
+                            $phones[] = (new ContactPhoneNumber())
+                                ->setNumber($variables[0])
+                                ->setName(!empty($variables[1]) && 'name' !== $variables[1] ? $variables[1] : null)
+                            ;
+                        }
+                    }
+                }
 
-                // @todo [cd] fields
+                if ($phones) {
+                    $contact->setPhonenumbers($phones);
+                } else {
+                    $missingRequired[] = 'Phonenumbers';
+                }
+
+                foreach ($this->fields->getContactFields() as $name => $data) {
+                    $pattern = preg_quote('[cd] '.$name.':', '/');
+                    preg_match_all('/'.$pattern.'(.*?)'.$endPattern.'/msi', $text, $matches);
+                    if (isset($matches[1][0]) && trim($matches[1][0])) {
+                        $setter = 'set'.ucfirst($name);
+                        $contact->{$setter}(preg_replace('#\R{2,}#', "\n", trim($matches[1][0])));
+                    } elseif ($data['required']) {
+                        $missingRequired[] = $name;
+                    }
+                }
 
                 if (!$missingRequired) {
                     $em->persist($contact);
                     $em->flush();
+
+                    return true;
                 }
 
-                $this->createMessage($contact, $mail->fromAddress, $mail->fromName, true);
-
-                return true;
+                return $this->sendMessage($contact, $mail->fromAddress, $mail->fromName, $missingRequired) > 0;
             }
         }
 

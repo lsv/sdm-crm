@@ -1,0 +1,21 @@
+---- PHONE NUMBERS ---
+[pn]: phonenumber|name
+
+--
+Add phone numbers by adding them above here
+
+-- Contact details (required) --
+[cd] name:Donald Duck
+
+
+-- Contact details (optional) --
+[cd] companyName:DonaldCompany
+[cd] webpage:www.donald.com
+
+
+----
+Create a new contact by filling out the above form
+
+--
+Best regards
+SD-CRM

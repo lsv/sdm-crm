@@ -59,7 +59,7 @@ class AppSendNewContactMailCommand extends Command
             }
         }
 
-        $output->writeln($this->mailer->createMessage($contact, $email, $name));
+        $output->writeln($this->mailer->sendMessage($contact, $email, $name));
     }
 
     private function setField(Contact $contact, $type, $value)

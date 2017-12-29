@@ -102,7 +102,7 @@ class PhoneLogSubscriber implements EventSubscriberInterface
         if (0 === $this->registry->getRepository(PhoneLogMailSent::class)->findSentByNumber($number, 48)) {
             $contact = new Contact();
             $contact->addPhonenumber((new ContactPhoneNumber())->setNumber($number));
-            $this->mailer->createMessage($contact);
+            $this->mailer->sendMessage($contact);
             if ($em = $this->registry->getManagerForClass(PhoneLogMailSent::class)) {
                 $phonelog = new PhoneLogMailSent();
                 $phonelog->setNumber($number);

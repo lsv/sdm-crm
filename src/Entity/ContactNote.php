@@ -36,6 +36,12 @@ class ContactNote
      */
     private $note;
 
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+
     /**
      * Get Id.
      *

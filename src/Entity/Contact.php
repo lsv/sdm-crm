@@ -74,6 +74,8 @@ class Contact
 
     public function __construct()
     {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
         $this->phonenumbers = new ArrayCollection();
         $this->infos = new ArrayCollection();
         $this->notes = new ArrayCollection();

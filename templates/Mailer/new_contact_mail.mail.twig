@@ -13,17 +13,19 @@
 
     {% if missingData %}
         You have not entered all the required data
+        {% for missing in missingData %}
+            Missing: {{ missing }}
+        {% endfor %}
     {% endif %}
 
     ---- PHONE NUMBERS ---
     {% for phonenumber in contact.phonenumbers %}
-        [pn] {{ phonenumber.number }} ({{ phonenumber.name }})
+        [pn]: {{ phonenumber.number }}|{{ phonenumber.name }}
     {% endfor %}
-    [pn] phonenumber (name)
+    [pn]: phonenumber|name
 
     --
-    Add phone numbers by adding them above here, in the format of
-    [pn] phonumber (name)
+    Add phone numbers by adding them above here
 
     -- Contact details (required) --
     {% for name, field in contactinfo %}
