@@ -51,12 +51,7 @@ class NewContactMailer
      */
     public function sendMessage(Contact $contact, ?string $recieverAddress = null, ?string $recieverName = null, array $missingData = null): int
     {
-        try {
-            $template = $this->twig->resolveTemplate('Mailer/new_contact_mail.mail.twig');
-        } catch (\Twig_Error_Loader | \Twig_Error_Syntax $exception) {
-            echo $exception->getMessage();
-            exit;
-        }
+        $template = $this->twig->resolveTemplate('Mailer/new_contact_mail.mail.twig');
 
         $data = [
             'missingData' => $missingData,

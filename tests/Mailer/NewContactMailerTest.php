@@ -3,7 +3,6 @@
 namespace App\tests\Mailer;
 
 use App\Entity\Contact;
-use App\Entity\ContactInfo;
 use App\Entity\ContactInfoField;
 use App\Entity\ContactPhoneNumber;
 use App\Mailer\NewContactMailer;
@@ -90,6 +89,24 @@ class NewContactMailerTest extends AbstractTest
         $this->assertCount(0, $contacts);
     }
 
+    public function testMissingExtraFields()
+    {
+        \bootstrap::createDatabase();
+        $em = $this->getManager(ContactInfoField::class);
+
+        $required = (new ContactInfoField())
+            ->setName('required')
+            ->setRequired(true)
+            ->setType(ContactInfoField::TYPE_STRING)
+        ;
+        $em->persist($required);
+        $em->flush();
+        $this->assertCount(1, $this->getRepository(ContactInfoField::class)->findAll());
+
+        $this->readMail('missing_extrafields.txt');
+        $this->assertCount(0, $this->getRepository(Contact::class)->findAll());
+    }
+
     public function testExtraFields()
     {
         \bootstrap::createDatabase();
@@ -120,12 +137,12 @@ class NewContactMailerTest extends AbstractTest
         $this->assertCount(3, $this->getRepository(ContactInfoField::class)->findAll());
 
         $this->readMail('extrafields.txt');
+        /** @var Contact $contact */
         $contact = $this->getRepository(Contact::class)->findOneBy(['name' => 'extrafields']);
         $this->assertNotNull($contact);
         $this->assertCount(2, $contact->getInfos());
 
         foreach ($contact->getInfos() as $info) {
-            /** @var ContactInfo $info */
             switch ($info->getField()->getName()) {
                 case 'required':
                     $this->assertSame('Required data is set', $info->getValue());
@@ -138,6 +155,17 @@ class NewContactMailerTest extends AbstractTest
                     break;
             }
         }
+    }
+
+    public function testWrongSubject()
+    {
+        \bootstrap::createDatabase();
+
+        $incomingMail = new IncomingMail();
+        $incomingMail->subject = 'Wrong subject';
+        $incomingMail->textPlain = $this->getBody('correct_2phonenumbers.txt');
+        $mailer = $this->getClass(NewContactMailer::class);
+        $this->assertFalse($mailer->readMessage($incomingMail));
     }
 
     private function readMail($filename, NewContactMailer $mailer = null)
