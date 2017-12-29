@@ -1,0 +1,1 @@
+{"type":"call-event","name":"call.ringing","timestamp":"2017-12-29T02:12:06Z","data":{"call_uuid":"aa776060-ec3d-11e7-bf68-3f6b29c8fd70","company_id":"123","endpoint":"Reception#17890","status":"ringing","switch":"b15","ringing_at":"2017-12-29T02:12:06Z"},"published_at":"2017-12-29T02:12:06.808+00:00"}

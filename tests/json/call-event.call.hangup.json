@@ -1,0 +1,1 @@
+{"type":"call-event","name":"call.hangup","timestamp":"2017-12-29T02:12:23Z","data":{"call_uuid":"aa776060-ec3d-11e7-bf68-3f6b29c8fd70","company_id":"123","endpoint":"Reception#17890","ended_at":"2017-12-29T02:12:23Z","direction":"incoming","switch":"b15","duration":18,"hangup_cause":"NORMAL_CLEARING"},"published_at":"2017-12-29T02:12:23.705+00:00"}

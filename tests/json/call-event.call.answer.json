@@ -1,0 +1,1 @@
+{"type":"call-event","name":"call.answer","timestamp":"2017-12-29T02:12:11Z","data":{"call_uuid":"aa776060-ec3d-11e7-bf68-3f6b29c8fd70","company_id":"123","endpoint":"Reception#17890","answered_at":"2017-12-29T02:12:11Z","ended_at":null,"direction":"incoming","status":"answered","switch":"b15","hangup_cause":null},"published_at":"2017-12-29T02:12:11.576+00:00"}

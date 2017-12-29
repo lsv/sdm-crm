@@ -1,0 +1,60 @@
+{% extends 'Mailer/mailer.html.twig' %}
+
+{%- macro writeData(contact, fieldname) -%}
+    {%- if contact.hasField(fieldname) %} {{ contact.valueFromField(fieldname) -}}{%- endif -%}
+{%- endmacro -%}
+
+{%- macro writeContactData(contact, field) -%}
+    {%- if attribute(contact, field) %} {{ attribute(contact, field) -}}{%- endif -%}
+{%- endmacro -%}
+
+{%- block body_plain -%}
+    {% import _self as forms %}
+
+    {% if missingData %}
+        You have not entered all the required data
+    {% endif %}
+
+    ---- PHONE NUMBERS ---
+    {% for phonenumber in contact.phonenumbers %}
+        [pn] {{ phonenumber.number }} ({{ phonenumber.name }})
+    {% endfor %}
+    [pn] phonenumber (name)
+
+    --
+    Add phone numbers by adding them above here, in the format of
+    [pn] phonumber (name)
+
+    -- Contact details (required) --
+    {% for name, field in contactinfo %}
+        {% if field.required %}
+            [cd] {{ name }}:{{ forms.writeContactData(contact, name) }}
+        {% endif %}
+    {% endfor %}
+
+    {% if required|length > 0 %}
+        -- Extra required fields --
+        {% for field in required %}
+            [x] {{ field.name }}:{{ forms.writeData(contact, field.name) }}
+        {% endfor %}
+    {% endif %}
+
+    -- Contact details (optional) --
+    {% for name, field in contactinfo %}
+        {% if not field.required %}
+            [cd] {{ name }}:{{ forms.writeContactData(contact, name) }}
+        {% endif %}
+    {% endfor %}
+
+    {% if optional %}
+        -- Optional fields --
+        {% for field in optional|length > 0 %}
+            [x] {{ field.name }}:{{ forms.writeData(contact, field.name) }}
+        {% endfor %}
+    {% endif %}
+
+    ----
+    Create a new contact by filling out the above form
+
+    {{ parent() }}
+{%- endblock -%}

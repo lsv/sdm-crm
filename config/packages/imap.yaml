@@ -1,0 +1,8 @@
+imap:
+    connections:
+        mailer:
+            mailbox: "%env(IMAP_MAILBOX)%"
+            username: "%env(IMAP_USERNAME)%"
+            password: "%env(IMAP_PASSWORD)%"
+            attachments_dir: "%kernel.root_dir%/../var/imap"
+            server_encoding: "UTF-8"

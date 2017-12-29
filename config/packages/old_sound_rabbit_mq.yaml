@@ -1,0 +1,16 @@
+old_sound_rabbit_mq:
+    connections:
+        default:
+            url: '%env(RABBITMQ_URL)%'
+#    producers:
+#        # use 'old_sound_rabbit_mq.task_producer' service to send data.
+#        task:
+#            connection:       default
+#            exchange_options: { name: 'task', type: direct }
+    consumers:
+        callevent:
+            connection:       default
+            exchange_options: { name: 'callevent', type: direct}
+            queue_options:    { name: 'callevent' }
+            callback:         App\Consumer\CallEventConsumer
+            enable_logger:    true
