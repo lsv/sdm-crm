@@ -1,0 +1,9 @@
+#!/bin/sh
+
+./vendor/bin/simple-phpunit install
+./vendor/bin/simple-phpunit
+./vendor/bin/php-cs-fixer fix -q
+./bin/console lint:yaml config -q
+./bin/console lint:twig templates -q
+composer validate --strict -q
+./bin/console doctrine:schema:validate --skip-sync --no-interaction -q
