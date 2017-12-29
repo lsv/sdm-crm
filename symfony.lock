@@ -5,15 +5,6 @@
     "composer/semver": {
         "version": "1.4.2"
     },
-    "dama/doctrine-test-bundle": {
-        "version": "4.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "4.0",
-            "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
-        }
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -98,17 +89,11 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.31"
     },
-    "guzzlehttp/guzzle": {
-        "version": "6.3.0"
-    },
-    "guzzlehttp/promises": {
-        "version": "v1.3.1"
-    },
-    "guzzlehttp/psr7": {
-        "version": "1.4.2"
-    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "liip/functional-test-bundle": {
+        "version": "1.9.0"
     },
     "monolog/monolog": {
         "version": "1.23.0"
@@ -131,9 +116,6 @@
             "ref": "ce3ca2e4577270c4f518539aa6b9e878998fcfef"
         }
     },
-    "php-coveralls/php-coveralls": {
-        "version": "v2.0.0"
-    },
     "php-cs-fixer/diff": {
         "version": "v1.2.0"
     },
@@ -145,9 +127,6 @@
     },
     "psr/container": {
         "version": "1.0.0"
-    },
-    "psr/http-message": {
-        "version": "1.0.1"
     },
     "psr/log": {
         "version": "1.0.2"

@@ -40,9 +40,4 @@
         </whitelist>
     </filter>
 
-    <logging>
-        <log target=".build/coverage" type="coverage-html" />
-        <log target=".build/logs/clover.xml" type="coverage-clover" />
-    </logging>
-
 </phpunit>
