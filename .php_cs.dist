@@ -5,6 +5,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('var')
     ->exclude('public/bundles')
     ->exclude('public/build')
+    ->name('*.php')
 ;
 
 return PhpCsFixer\Config::create()
