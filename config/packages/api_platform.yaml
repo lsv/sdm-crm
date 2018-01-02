@@ -1,0 +1,4 @@
+api_platform:
+    title: SDM CRM
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']

@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ContactNoteRepository")
  * @ORM\Table(name="contact_note")
  */

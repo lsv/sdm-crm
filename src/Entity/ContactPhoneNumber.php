@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ContactPhoneNumberRepository")
  */
 class ContactPhoneNumber
@@ -22,6 +25,7 @@ class ContactPhoneNumber
      * @var Contact
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="phonenumbers")
+     * @ApiSubresource()
      */
     private $contact;
 

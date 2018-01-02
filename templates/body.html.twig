@@ -1,0 +1,18 @@
+<div id="topbar">
+    {% block topbar %}
+        {% include '::topbar.html.twig' %}
+    {% endblock %}
+</div>
+<div id="sidebar">
+    {% block sidebar %}
+        {% include '::sidebar.html.twig' %}
+    {% endblock %}
+</div>
+<div id="content">
+    {% block body %}{% endblock %}
+</div>
+<div id="footer">
+    {% block footer %}
+        {% include '::footer.html.twig' %}
+    {% endblock %}
+</div>
